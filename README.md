@@ -1,5 +1,3 @@
-# Rust CLI tool
+# Rust CLI Weather App
 
-For now, this is a bit of a sandbox app trying out the various crates in the ecosystem that would help me build out a CLI tool in Rust. 
-
-Once I figure out what I might want to make, I'll update the name of this project towards that goal.
+This is a simple command line app built with Rust that returns information about the weather using the Open Weather API. 
