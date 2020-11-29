@@ -6,4 +6,22 @@ edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
-structopt = "0.3.13"
+# easily parse command line args using derived traits
+structopt = "0.3.20"
+
+# nice exit messages when an error is thrown
+exitfailure = "0.5.1"
+
+# handle http requests, enable json
+reqwest = { version = "0.10.6", features=["json"] }
+
+# serialize / deserialize files
+serde = "1.0.114"
+serde_json = "1.0.56"
+serde_derive = "1.0.114"
+
+# async I/O handling
+tokio = { version = "0.2.21", features=["full"] }
+
+# read environment variables from .env file
+dotenv = "0.15.0"
