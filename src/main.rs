@@ -86,7 +86,7 @@ impl Forecast {
         let openweather_api_key = dotenv::var("OPENWEATHER_API_KEY").unwrap();
         
         // api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid={API key}
-        let url = format!("http://api.openweathermap.org/data/2.5/weather?q={},{}&appid={}", city, country_code, openweather_api_key);
+        let url = format!("http://api.openweathermap.org/data/2.5/weather?q={},{}&units=imperial&appid={}", city, country_code, openweather_api_key);
         let url = Url::parse(&*url)?;
 
         let response = reqwest::get(url)
@@ -104,7 +104,18 @@ async fn main() -> Result<(), ExitFailure> {
     // wait to get a Forecast response, instead of a Future
     let response = Forecast::get(&args.city, &args.country_code).await?;
 
-    // cargo run Chicago USA -> City is Chicago, Country Code is USA
-    println!("City is {}, Country Code is {}, Humidity is {}%", args.city, args.country_code, response.main.humidity);
+    // Example: cargo run Chicago USA -> 
+    // City: Chicago
+    // Country: USA
+    // High: 50°F
+    // Low: 48°F
+    // Humidity: 58%
+    println!("City: {}", args.city);
+    println!("Country: {}", args.country_code);
+    println!("---------------");
+    println!("High: {}°F", response.main.temp_max);
+    println!("Low: {}°F", response.main.temp_min);
+    println!("Humidity: {}%", response.main.humidity);
+
     Ok(())
 }
