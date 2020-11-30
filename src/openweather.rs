@@ -85,4 +85,10 @@ impl Forecast {
             .await?;
         Ok(response)
     }
+    pub fn print(&self) -> () {
+        println!("High: {:.1}°F", self.main.temp_max);
+        println!("Low: {:.1}°F", self.main.temp_min);
+
+        println!("Humidity: {}%", self.main.humidity);
+    }
 }

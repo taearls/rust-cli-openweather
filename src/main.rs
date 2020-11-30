@@ -11,6 +11,13 @@ struct Cli {
     country_code: String,
 }
 
+impl Cli {
+    fn print(args: &Self) {
+        println!("City: {}", args.city);
+        println!("Country: {}", args.country_code);
+    }
+}
+
 // tokio allows our main fn to be async
 #[tokio::main]
 async fn main() -> Result<(), ExitFailure> {
@@ -24,15 +31,10 @@ async fn main() -> Result<(), ExitFailure> {
     // High: 50°F
     // Low: 48°F
     // Humidity: 58%
-    println!("City: {}", args.city);
-    println!("Country: {}", args.country_code);
+    Cli::print(&args);
     println!("---------------");
-
+    openweather::Forecast::print(&forecast);
     // this will round to the nearest tenths place
-    println!("High: {:.1}°F", forecast.main.temp_max);
-    println!("Low: {:.1}°F", forecast.main.temp_min);
-
-    println!("Humidity: {}%", forecast.main.humidity);
 
     Ok(())
 }
