@@ -2,7 +2,6 @@ use structopt::StructOpt;
 use exitfailure::{ExitFailure};
 use serde_derive::{Deserialize, Serialize};
 use reqwest::Url;
-use dotenv;
 
 // this struct holds the cli arguments
 // they get read from stdin respectively,
@@ -113,8 +112,11 @@ async fn main() -> Result<(), ExitFailure> {
     println!("City: {}", args.city);
     println!("Country: {}", args.country_code);
     println!("---------------");
-    println!("High: {}°F", response.main.temp_max);
-    println!("Low: {}°F", response.main.temp_min);
+
+    // this will round to the nearest tenths place
+    println!("High: {:.1}°F", response.main.temp_max);
+    println!("Low: {:.1}°F", response.main.temp_min);
+
     println!("Humidity: {}%", response.main.humidity);
 
     Ok(())
