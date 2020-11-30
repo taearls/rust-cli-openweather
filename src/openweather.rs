@@ -14,11 +14,11 @@ pub struct Forecast {
     pub wind: Wind,
     pub clouds: Clouds,
     pub dt: i32,
-    pub sys: Sys,
     pub timezone: i32,
     pub id: i32,
     pub name: String,
     pub cod: i32,
+    sys: Sys,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -37,7 +37,7 @@ pub struct Details {
     pub id: i32,
     pub main: String,
     pub description: String,
-    pub icon: String,
+    icon: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -62,12 +62,12 @@ pub struct Clouds {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Sys {
-    pub r#type: f64,
-    pub id: i32,
-    pub country: String,
-    pub sunrise: i32,
-    pub sunset: i32,
+struct Sys {
+    r#type: f64,
+    id: i32,
+    country: String,
+    sunrise: i32,
+    sunset: i32,
 }
 
 impl Forecast {
@@ -86,9 +86,11 @@ impl Forecast {
         Ok(response)
     }
     pub fn print(&self) -> () {
-        println!("High: {:.1}°F", self.main.temp_max);
-        println!("Low: {:.1}°F", self.main.temp_min);
+        println!("Temperature: {:.1}°F", self.main.feels_like);
 
+        println!("Wind: {:.0} miles/hr", self.wind.speed);
         println!("Humidity: {}%", self.main.humidity);
+
+        println!("Description: {}", self.weather.details.main);
     }
 }
