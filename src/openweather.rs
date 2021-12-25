@@ -77,7 +77,7 @@ impl Forecast {
         
         // api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid={API key}
         let url = format!("http://api.openweathermap.org/data/2.5/weather?q={},{}&units=imperial&appid={}", city, country_code, openweather_api_key);
-        let url = Url::parse(&*url).expect(&format!("There was a problem parsing the url: {}", url));
+        let url = Url::parse(&*url).or_else(|_| panic!("There was a problem parsing the url: {}", url));
 
         let response = reqwest::get(url)
             .await?
@@ -85,7 +85,7 @@ impl Forecast {
             .await?;
         Ok(response)
     }
-    pub fn print(&self) -> () {
+    pub fn print(&self) {
         println!("Temperature: {:.1}°F", self.main.feels_like);
 
         println!("Wind: {:.0} miles/hr", self.wind.speed);
