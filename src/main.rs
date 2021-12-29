@@ -4,7 +4,7 @@ use exitfailure::{ExitFailure};
 mod openweather;
 
 // this struct holds the cli arguments
-// they get read from stdin respectively,
+// they get read from stdin respectively
 #[derive(StructOpt)]
 struct Opt {
     city: String,
@@ -33,10 +33,11 @@ async fn main() -> Result<(), ExitFailure> {
     // High: 50°F
     // Low: 48°F
     // Humidity: 58%
+
+    // TODO: collapse the output into a single method.
     Opt::print(&args);
     println!("---------------");
     openweather::Forecast::print(&forecast);
-    // this will round to the nearest tenths place
 
     Ok(())
 }
