@@ -1,6 +1,6 @@
-use serde_derive::{Deserialize, Serialize};
+use exitfailure::ExitFailure;
 use reqwest::Url;
-use exitfailure::{ExitFailure};
+use serde_derive::{Deserialize, Serialize};
 
 // this struct holds the json response from the open weather api
 // each struct represents a json object in the response payload
@@ -74,18 +74,19 @@ impl Forecast {
     // async because we're making an http request to open weather api endpoint
     pub async fn get(city: &str, country_code: &str) -> Result<Self, ExitFailure> {
         let openweather_api_key = dotenv::var("OPENWEATHER_API_KEY").unwrap();
-        
-        // api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid={API key}
-        let url = format!("http://api.openweathermap.org/data/2.5/weather?q={},{}&units=imperial&appid={}", city, country_code, openweather_api_key);
-        let url = Url::parse(&*url).expect(&format!("There was a problem parsing the url: {}", url));
 
-        let response = reqwest::get(url)
-            .await?
-            .json::<Forecast>()
-            .await?;
+        // api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid={API key}
+        let url = format!(
+            "http://api.openweathermap.org/data/2.5/weather?q={},{}&units=imperial&appid={}",
+            city, country_code, openweather_api_key
+        );
+        let url = Url::parse(&*url)
+            .unwrap_or_else(|_| panic!("There was a problem parsing the url: {}", url));
+
+        let response = reqwest::get(url).await?.json::<Forecast>().await?;
         Ok(response)
     }
-    pub fn print(&self) -> () {
+    pub fn print(&self) {
         println!("Temperature: {:.1}°F", self.main.feels_like);
 
         println!("Wind: {:.0} miles/hr", self.wind.speed);
