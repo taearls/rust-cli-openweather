@@ -1,5 +1,5 @@
+use exitfailure::ExitFailure;
 use structopt::StructOpt;
-use exitfailure::{ExitFailure};
 
 mod openweather;
 
@@ -27,7 +27,7 @@ async fn main() -> Result<(), ExitFailure> {
     // wait to get a Forecast response, instead of a Future
     let forecast = openweather::Forecast::get(&args.city, &args.country_code).await?;
 
-    // Example: cargo run Chicago USA 60642 -> 
+    // Example: cargo run Chicago USA 60642 ->
     // City: Chicago
     // Country: USA
     // High: 50°F
